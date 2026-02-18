@@ -2,3 +2,5 @@
 
 pandas
 matplotlib
+nltk
+scikit-learn
