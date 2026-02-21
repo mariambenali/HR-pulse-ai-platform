@@ -1,3 +1,7 @@
 data
 myvenv
 .env
+
+test_terraform.py
+terraform/
+terraform
