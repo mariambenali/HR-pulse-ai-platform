@@ -1,13 +1,13 @@
 # ========= ML =========
-
 pandas
 matplotlib
 nltk
 scikit-learn
 sentence-transformers
 
-
-
-
 # ========= CLOUD =========
 azure-ai-textanalytics
+
+
+# ========= TEST =========
+pytest
