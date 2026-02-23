@@ -18,7 +18,9 @@ class UserResponse(BaseModel):
 
 
 class QueryRequest(BaseModel):
-    title : str
+    id_job: int
+    job_title : str
+    skills_extracted: str
 
 class QueryResponse(BaseModel):
     salary_predict: float

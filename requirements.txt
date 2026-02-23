@@ -8,7 +8,6 @@ sentence-transformers
 # ========= CLOUD =========
 azure-ai-textanalytics
 
-
 # ========= TEST =========
 pytest
 
@@ -18,6 +17,9 @@ sqlalchemy
 uvicorn
 psycopg2
 python-dotenv
+pydantic
+python-jose
+email-validator
 
 # ========= Security=========
 bcrypt
