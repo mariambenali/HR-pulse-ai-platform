@@ -11,3 +11,13 @@ azure-ai-textanalytics
 
 # ========= TEST =========
 pytest
+
+# ========= Database =========
+fastapi
+sqlalchemy
+uvicorn
+psycopg2
+python-dotenv
+
+# ========= Security=========
+bcrypt
