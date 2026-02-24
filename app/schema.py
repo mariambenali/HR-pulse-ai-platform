@@ -17,10 +17,20 @@ class UserResponse(BaseModel):
         orm_mode = True
 
 
-class QueryRequest(BaseModel):
-    id_job: int
-    job_title : str
-    skills_extracted: str
+class PredictSalaryRequest(BaseModel):
+    Rating: float
+    Company_Name: str
+    Industry: str
+    Sector: str
+    seniority: str
+    job_role: str
+    skills: str
+    log_revenue: float
+    company_age: float
+    size_category: str
 
-class QueryResponse(BaseModel):
-    salary_predict: float
+
+class PredictSalaryResponse(BaseModel):
+    predicted_salary: float
+
+    

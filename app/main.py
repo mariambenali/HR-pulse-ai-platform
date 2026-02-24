@@ -1,5 +1,6 @@
 from .models import User
-from .schema import UserCreate, UserResponse, QueryRequest, QueryResponse
+from .schema import UserCreate, UserResponse, PredictSalaryRequest, PredictSalaryResponse
+from ml.src.prediction import load_model
 from .security import hash_password, verify_password
 from .database import SessionLocal, engine, Base
 from fastapi import FastAPI, Depends, HTTPException
@@ -7,6 +8,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from jose import jwt
 from dotenv import load_dotenv
+import pandas as pd
 import os
 
 
@@ -14,6 +16,8 @@ import os
 
 
 Base.metadata.create_all(bind=engine)
+
+
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -23,7 +27,7 @@ app = FastAPI()
 
 security = HTTPBearer()
 
-
+model = load_model()
 
 def get_db():
     db = SessionLocal()
@@ -93,6 +97,10 @@ def verify_token(auth: HTTPAuthorizationCredentials = Depends(security), db: Ses
     
 
 
-@app.post("/salary_predict")
-def salary_predict():
-    pass
+@app.post("/salary_predict", response_model= PredictSalaryResponse)
+def salary_predict(payload: PredictSalaryRequest, reccurent_user: User= Depends(verify_token), db: Session= Depends(get_db) ):
+    
+    input_data = pd.DataFrame([payload.dict()])
+    prediction= model.predict(input_data)
+
+    return {"predicted_salary": float(prediction[0])}

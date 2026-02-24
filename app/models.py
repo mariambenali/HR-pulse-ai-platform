@@ -18,5 +18,5 @@ class Job(Base):
     __tablename__ = "jobs"
 
     id = Column(Integer, primary_key=True, index=True)
-    job_title = Column(String(255), unique=True, nullable=False)
-    skills_extracted = Column(String(255), unique=True, nullable=False)
+    job_role = Column(String(255), unique=True, nullable=False)
+    skills = Column(String(255), unique=True, nullable=False)
