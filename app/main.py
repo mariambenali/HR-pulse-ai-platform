@@ -1,10 +1,11 @@
-from .models import User
+from .models import User, Job
 from .schema import UserCreate, UserResponse, PredictSalaryRequest, PredictSalaryResponse
 from ml.src.prediction import load_model
 from .security import hash_password, verify_password
 from .database import SessionLocal, engine, Base
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from jose import jwt
 from dotenv import load_dotenv
@@ -13,10 +14,7 @@ import os
 
 
 
-
-
 Base.metadata.create_all(bind=engine)
-
 
 
 load_dotenv()
@@ -24,6 +22,14 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 security = HTTPBearer()
 
@@ -102,5 +108,13 @@ def salary_predict(payload: PredictSalaryRequest, reccurent_user: User= Depends(
     
     input_data = pd.DataFrame([payload.dict()])
     prediction= model.predict(input_data)
+
+    new_job = Job(
+        job_role = payload.job_role,
+        skills = payload.skills
+    )
+    db.add(new_job)
+    db.commit()
+    db.refresh(new_job)
 
     return {"predicted_salary": float(prediction[0])}

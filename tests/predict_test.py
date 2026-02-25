@@ -9,14 +9,16 @@ def model():
 
 def test_predict(model):
     sample = pd.DataFrame([{
-        "Job Title":"senior data scientist",
-        "Job Description":"descriptionthe senior data scientist is respon...",
         "Rating": 3.1,
-        "Company Name": "healthfirst3.1",
-        "Industry":"insurance carriers",
-        "Sector":"insurance",
-        "company_age":33.0,
-        "size_category":"medium"
+        "Company_Name": "healthfirst",
+        "Industry": "insurance carriers",
+        "Sector": "insurance",
+        "seniority": "senior",
+        "job_role": "data scientist",
+        "skills": "Azure Machine Learning",
+        "log_revenue": 19.519293,
+        "company_age": 33.0,
+        "size_category": "medium"
 
     }])
 
