@@ -8,6 +8,18 @@ sentence-transformers
 # ========= CLOUD =========
 azure-ai-textanalytics
 
-
 # ========= TEST =========
 pytest
+
+# ========= Database =========
+fastapi
+sqlalchemy
+uvicorn
+psycopg2
+python-dotenv
+pydantic
+python-jose
+email-validator
+
+# ========= Security=========
+bcrypt
