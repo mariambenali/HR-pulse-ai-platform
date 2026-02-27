@@ -14,9 +14,7 @@ jobs:
 
     steps:
       - name: Checkout backend
-        uses: actions/checkout@v4
-        with:
-          path: HR-pulse-ai-platform
+        uses: actions/checkout@v4       
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,20 +22,17 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        working-directory: HR-pulse-ai-platform
-        run: |
+        run: |                         
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Lint with flake8
-        working-directory: HR-pulse-ai-platform
-        run: |
+        run: |                         
           pip install flake8
           flake8 app --max-line-length=120 --ignore=E501,W291,W293,E302,E303,E265,E203,E231,E225,E251,E252,E261,E262,W391,W292,E226
 
       - name: Run tests
-        working-directory: HR-pulse-ai-platform
-        run: pytest
+        run: pytest                    
 
   docker-compose:
     runs-on: ubuntu-latest
@@ -45,15 +40,13 @@ jobs:
 
     steps:
       - name: Checkout backend
-        uses: actions/checkout@v4
-        with:
-          path: HR-pulse-ai-platform       
+        uses: actions/checkout@v4       
 
       - name: Checkout frontend
         uses: actions/checkout@v4
         with:
           repository: mariambenali/HR-pulse-ai-platform_Frontend
-          path: HR-pulse-ai-platform_Frontend
+          path: ../HR-pulse-ai-platform_Frontend   
 
       - name: Check Docker
         run: |
@@ -61,13 +54,14 @@ jobs:
           docker compose version
 
       - name: Create .env file
-        run: cp .env.example .env
+        run: |                          
+          echo "DATABASE_URL=" >> .env
+          echo "SECRET_KEY=" >> .env
+          echo "ALGORITHM=" >> .env
 
       - name: Build and run containers
-        working-directory: HR-pulse-ai-platform
         run: docker compose -f docker-compose.yml up --build -d
 
       - name: Tear down containers
         if: always()
-        working-directory: HR-pulse-ai-platform
         run: docker compose -f docker-compose.yml down
