@@ -1,11 +1,13 @@
 import pytest
 import joblib
 import pandas as pd
+import os
 
 
 @pytest.fixture
 def model():
-    return joblib.load("/Users/miriambenali/Desktop/Project-Simplon/HR-pulse-ai-platform/model/hr_ai_platform.pkl")
+    model_path = os.path.join("model", "hr_ai_platform.pkl")
+    return joblib.load(model_path)
 
 def test_predict(model):
     sample = pd.DataFrame([{
