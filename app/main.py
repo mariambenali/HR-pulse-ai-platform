@@ -104,7 +104,7 @@ def verify_token(auth: HTTPAuthorizationCredentials = Depends(security), db: Ses
 
 
 @app.post("/salary_predict", response_model= PredictSalaryResponse)
-def salary_predict(payload: PredictSalaryRequest, reccurent_user: User= Depends(verify_token), db: Session= Depends(get_db) ):
+def salary_predict(payload: PredictSalaryRequest, reccurent_user: User= Depends(verify_token), db: Session= Depends(get_db)):
     
     input_data = pd.DataFrame([payload.dict()])
     prediction= model.predict(input_data)

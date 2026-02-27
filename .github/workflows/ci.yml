@@ -44,4 +44,3 @@ jobs:
 
       - name: Build Backend image
         run: docker build -t backend-image ./backend
-        
