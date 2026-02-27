@@ -13,8 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout backend
         uses: actions/checkout@v4
+        with:
+          path: HR-pulse-ai-platform
+
+      - name: Checkout frontend
+        uses: actions/checkout@v4
+        with:
+          repository: mariambenali/HR-pulse-ai-platform_Frontend
+          path: HR-pulse-ai-platform_Frontend 
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -47,7 +55,8 @@ jobs:
           docker --version
           docker compose version
 
-      - name: Create .env file        
+      - name: Create .env file
+        working-directory: HR-pulse-ai-platform
         run: |
           cp .env.example .env
           # OU génère depuis les secrets :
@@ -56,8 +65,10 @@ jobs:
           # echo "ALGORITHM=${{ secrets.ALGORITHM}}" >> .env
 
       - name: Build and run containers
+        working-directory: HR-pulse-ai-platform
         run: docker compose -f docker-compose.yml up --build -d
 
-      - name: Tear down containers    
+      - name: Tear down containers 
         if: always()
+        working-directory: HR-pulse-ai-platform 
         run: docker compose -f docker-compose.yml down
