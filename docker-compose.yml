@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - terraform
+
+  terraform:
+    image: hashicorp/terraform:1.5.7
+    working_dir: /workspace
+    volumes:
+      - ./terraform:/workspace
+      - ./app:/workspace/app   # si tu veux que Terraform accède au code backend
+      - ./.env:/workspace/.env
+    command: ["apply", "-auto-approve"]
