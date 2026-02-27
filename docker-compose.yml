@@ -12,7 +12,7 @@ services:
 
   frontend:
     build:
-      context: ../HR-pulse-ai-platform_Frontend
+      context: ./HR-pulse-ai-platform_Frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
