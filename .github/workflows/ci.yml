@@ -64,4 +64,4 @@ jobs:
 
       - name: Tear down containers
         if: always()
-        run: docker compose -f docker-compose.yml down --remove-orphans || true
+        run: docker compose -f docker-compose.yml down --remove-orphans || true 
