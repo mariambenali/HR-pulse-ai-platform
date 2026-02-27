@@ -30,11 +30,13 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: HR-pulse-ai-platform 
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Lint with flake8
+        working-directory: HR-pulse-ai-platform 
         run: |
           pip install flake8
           flake8 app --max-line-length=120 --ignore=E501,W291,W293,E302,E303,E265,E203,E231,E225,E251,E252,E261,E262,W391,W292,E226
