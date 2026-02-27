@@ -11,6 +11,12 @@ from jose import jwt
 from dotenv import load_dotenv
 import pandas as pd
 import os
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
 
 
 
@@ -22,6 +28,22 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
 app = FastAPI()
+
+
+#créer un provider
+trace.set_tracer_provider(TracerProvider())
+
+#exporter vers jaeger
+otlp_exporter= OTLPSpanExporter(endpoint="http://jaeger:4317", insecure=True)
+
+span_processor= BatchSpanProcessor(otlp_exporter)
+trace.get_tracer_provider().add_span_processor(span_processor)
+
+#instrumenter Fastapi
+FastAPIInstrumentor.instrument_app(app)
+RequestsInstrumentor.instrument()
+
+
 
 app.add_middleware(
     CORSMiddleware,
