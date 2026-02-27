@@ -1,0 +1,9 @@
+data
+myvenv
+.env
+!.env.example
+
+test_terraform.py
+terraform/
+terraform
+.pytest_cache

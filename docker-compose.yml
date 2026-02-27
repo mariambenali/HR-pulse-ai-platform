@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - terraform
+
+  frontend:
+    build:
+      context: ./HR-pulse-ai-platform_Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  terraform:
+    image: hashicorp/terraform:1.5.7
+    working_dir: /workspace
+    volumes:
+      - ./terraform:/workspace
+      - ./app:/workspace/app
+      - ./.env:/workspace/.env
+    command: ["apply", "-auto-approve"]
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "4317:4317"
