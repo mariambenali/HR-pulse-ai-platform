@@ -1,7 +1,7 @@
 data
 myvenv
 .env
-
+!.env.example
 
 test_terraform.py
 terraform/
