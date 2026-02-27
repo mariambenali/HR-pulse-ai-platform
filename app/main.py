@@ -1,5 +1,5 @@
 from .models import User, Job
-from .schema import UserCreate, UserResponse, PredictSalaryRequest, PredictSalaryResponse
+from .schema import UserCreate, UserResponse, PredictSalaryRequest, PredictSalaryResponse, JobSearchRequest
 from ml.src.prediction import load_model
 from .security import hash_password, verify_password
 from .database import SessionLocal, engine, Base
@@ -7,6 +7,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from jose import jwt
 from dotenv import load_dotenv
 import pandas as pd
@@ -41,7 +42,7 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 
 #instrumenter Fastapi
 FastAPIInstrumentor.instrument_app(app)
-RequestsInstrumentor.instrument()
+RequestsInstrumentor.instrument(app)
 
 
 
@@ -140,3 +141,17 @@ def salary_predict(payload: PredictSalaryRequest, reccurent_user: User= Depends(
     db.refresh(new_job)
 
     return {"predicted_salary": float(prediction[0])}
+
+
+
+@app.post("/search_jobs")
+def search_jobs(payload: JobSearchRequest, reccurent_user: User= Depends(verify_token), db: Session = Depends(get_db)):
+
+    filters = []
+
+    for skill in payload.skills:
+        filters.append(Job.skills.ilike(f"%{skill}%"))
+
+    jobs = db.query(Job).filter(or_(*filters)).all()
+
+    return jobs

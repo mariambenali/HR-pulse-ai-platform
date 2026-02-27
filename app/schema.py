@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-
+from typing import List
 
 
 
@@ -34,3 +34,6 @@ class PredictSalaryResponse(BaseModel):
     predicted_salary: float
 
     
+
+class JobSearchRequest(BaseModel):
+    skills: List[str]
