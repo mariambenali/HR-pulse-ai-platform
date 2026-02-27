@@ -52,7 +52,7 @@ jobs:
       - name: Checkout frontend
         uses: actions/checkout@v4
         with:
-          repository: mariambenali/HR-pulse-ai-platform_Frontend/hr_pulse
+          repository: mariambenali/HR-pulse-ai-platform_Frontend
           path: HR-pulse-ai-platform_Frontend
 
       - name: Check Docker
@@ -61,7 +61,6 @@ jobs:
           docker compose version
 
       - name: Create .env file
-        working-directory: HR-pulse-ai-platform  
         run: cp .env.example .env
 
       - name: Build and run containers
