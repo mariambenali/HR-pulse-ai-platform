@@ -15,7 +15,7 @@ pytest
 fastapi
 sqlalchemy
 uvicorn
-psycopg2
+psycopg2-binary
 python-dotenv
 pydantic
 python-jose
