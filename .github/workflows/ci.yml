@@ -52,7 +52,7 @@ jobs:
       - name: Checkout frontend
         uses: actions/checkout@v4
         with:
-          repository: mariambenali/HR-pulse-ai-platform_Frontend
+          repository: mariambenali/HR-pulse-ai-platform_Frontend/hr_pulse
           path: HR-pulse-ai-platform_Frontend
 
       - name: Check Docker
