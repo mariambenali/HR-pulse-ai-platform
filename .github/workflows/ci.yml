@@ -42,8 +42,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
+      - name: Check Docker
+        run: |
+          docker --version
+          docker compose version
 
       - name: Build and run containers
         run: |
