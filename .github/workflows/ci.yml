@@ -43,4 +43,4 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Backend image
-        run: docker build -t backend-image ./backend
+        run: docker build -t backend-image ./app
