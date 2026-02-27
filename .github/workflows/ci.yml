@@ -30,7 +30,7 @@ jobs:
         run: |
           pip install flake8
           flake8 app --max-line-length=120 --ignore=E501,W291,W293,E302,E303,E265,E203,E231,E225,E251,E252,E261,E262,W391,W292,E226
-        
+
       - name: Run tests
         run: pytest
 
@@ -47,10 +47,17 @@ jobs:
           docker --version
           docker compose version
 
-      - name: Build and run containers
+      - name: Create .env file        
         run: |
-            docker compose -f docker-compose.yml up --build -d
+          cp .env.example .env
+          # OU génère depuis les secrets :
+          # echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          # echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          # echo "ALGORITHM=${{ secrets.ALGORITHM}}" >> .env
 
-      - name: Tear down containers
+      - name: Build and run containers
+        run: docker compose -f docker-compose.yml up --build -d
+
+      - name: Tear down containers    
         if: always()
-        run: docker compose -f docker-compose.yml down23
+        run: docker compose -f docker-compose.yml down
