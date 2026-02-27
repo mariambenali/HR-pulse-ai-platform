@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   backend:
     build:
@@ -17,6 +15,6 @@ services:
     working_dir: /workspace
     volumes:
       - ./terraform:/workspace
-      - ./app:/workspace/app   # si tu veux que Terraform accède au code backend
+      - ./app:/workspace/app   
       - ./.env:/workspace/.env
     command: ["apply", "-auto-approve"]
